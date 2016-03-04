@@ -5,19 +5,22 @@
 # Top Array. 3 levels of list. Each drink has a list of ingredients. Each ingredient has a list of labels.
 drinks = []
 
-# Assumed Alcohols are: Vodka, Rum, Gin, and Whiskey
-# Assumed Mixers are: Cola, Lime, OJ, Lemon, Soda Water, Simple Syrup
+# Contents of Machine
+ALCOHOLS = ["Vodka","Rum","Gin","Whiskey"]
+MASTER_OPTIONS = ["None","Vodka","Rum","Gin","Whiskey","Cola", "Lime Juice", "OJ", "Lemon Juice", "Soda Water", "Simple Syrup"]
 
 # DrinkNo Correspondances
 RC = 0 # Rum and Coke
-SD = 1 # Screwdriver
-WS = 2 # Whiskey Sour
-GR = 3 # Gin Rickey
-DAQ = 4 # Daiquiri
-TC = 5 # Tom Collins
-GM = 6 # Gimlet
-LI = 7 # Long Island Ice Tea
+SD = RC+1 # Screwdriver
+WS = SD+1 # Whiskey Sour
+GR = WS+1 # Gin Rickey
+DAQ = GR+1 # Daiquiri
+TC = DAQ+1 # Tom Collins
+GM = TC+1 # Gimlet
+LI = GM+1 # Long Island Ice Tea
+CUSTOM = LI+1 # Custom Drink
 
+# Drink/Recipe List
 # Format for Alcohol: ("Alcohol", "<Type>", <# shots>)
 # Format for Mixer: ("Mixer", "<Type>", mL)
 
@@ -62,3 +65,25 @@ drinks[LI].insert(1, ["Alcohol", "Vodka", 1])
 drinks[LI].insert(2, ["Alcohol", "Rum", 1])
 drinks[LI].insert(3, ["Mixer", "Lime Juice", 45])
 drinks[LI].insert(4, ["Mixer", "Cola", 135])
+
+# Custom Drink Logic
+drinks.insert(CUSTOM,[])
+def CustomizeDrink(ingr0,ingr1,ingr2,ingr3,ingr4):
+	drinks[CUSTOM] = [];
+	custom_ingr_no = 0
+	if (ingr0[2] != "None"):		
+		drinks[CUSTOM].insert(custom_ingr_no, ingr0)
+		custom_ingr_no += 1
+	if (ingr1[2] != "None"):
+		drinks[CUSTOM].insert(custom_ingr_no, ingr1)
+		custom_ingr_no += 1
+	if (ingr2[2] != "None"):
+		drinks[CUSTOM].insert(custom_ingr_no, ingr2)
+		custom_ingr_no += 1
+	if (ingr3[2] != "None"):
+		drinks[CUSTOM].insert(custom_ingr_no, ingr3)
+		custom_ingr_no += 1
+	if (ingr4[2] != "None"):
+		drinks[CUSTOM].insert(custom_ingr_no, ingr4)
+		custom_ingr_no += 1
+	return;
