@@ -20,70 +20,79 @@ GM = TC+1 # Gimlet
 LI = GM+1 # Long Island Ice Tea
 CUSTOM = LI+1 # Custom Drink
 
+mL_PER_SHOT = 45
+
 # Drink/Recipe List
-# Format for Alcohol: ("Alcohol", "<Type>", <# shots>)
+# Format for Alcohol: ("Alcohol", "<Type>", <# shots>*45)
 # Format for Mixer: ("Mixer", "<Type>", mL)
 
 drinks.insert(RC,[])
-drinks[RC].insert(0, ["Alcohol", "Rum", 1])
+drinks[RC].insert(0, ["Alcohol", "Rum", 1*mL_PER_SHOT])
 drinks[RC].insert(1, ["Mixer", "Cola", 250])
 drinks[RC].insert(2, ["Mixer", "Lime Juice", 45])
 
 drinks.insert(SD,[])
-drinks[SD].insert(0, ["Alcohol", "Vodka", 1.5])
+drinks[SD].insert(0, ["Alcohol", "Vodka", 1.5*mL_PER_SHOT])
 drinks[SD].insert(1, ["Mixer", "OJ", 250])
 
 drinks.insert(WS,[])
-drinks[WS].insert(0, ["Alcohol", "Whiskey", 2])
+drinks[WS].insert(0, ["Alcohol", "Whiskey", 2*mL_PER_SHOT])
 drinks[WS].insert(1, ["Mixer", "Lemon Juice", 45])
 drinks[WS].insert(2, ["Mixer", "Simple Syrup", 20])
 
 drinks.insert(GR,[])
-drinks[GR].insert(0, ["Alcohol", "Gin", 2])
+drinks[GR].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
 drinks[GR].insert(1, ["Mixer", "Soda Water", 200])
 drinks[GR].insert(2, ["Mixer", "Lime Juice", 30])
 
 drinks.insert(DAQ,[])
-drinks[DAQ].insert(0, ["Alcohol", "Rum", 2])
+drinks[DAQ].insert(0, ["Alcohol", "Rum", 2*mL_PER_SHOT])
 drinks[DAQ].insert(1, ["Mixer", "Simple Syrup", 45])
 drinks[DAQ].insert(2, ["Mixer", "Lime Juice", 45])
 
 drinks.insert(TC,[])
-drinks[TC].insert(0, ["Alcohol", "Gin", 2])
+drinks[TC].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
 drinks[TC].insert(1, ["Mixer", "Simple Syrup", 30])
 drinks[TC].insert(2, ["Mixer", "Lemon Juice", 30])
 drinks[TC].insert(3, ["Mixer", "Soda Water", 200])
 
 drinks.insert(GM,[])
-drinks[GM].insert(0, ["Alcohol", "Gin", 2])
+drinks[GM].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
 drinks[GM].insert(1, ["Mixer", "Simple Syrup", 20])
 drinks[GM].insert(2, ["Mixer", "Lime Juice", 45])
 
 drinks.insert(LI,[])
-drinks[LI].insert(0, ["Alcohol", "Gin", 1])
-drinks[LI].insert(1, ["Alcohol", "Vodka", 1])
-drinks[LI].insert(2, ["Alcohol", "Rum", 1])
+drinks[LI].insert(0, ["Alcohol", "Gin", 1*mL_PER_SHOT])
+drinks[LI].insert(1, ["Alcohol", "Vodka", 1*mL_PER_SHOT])
+drinks[LI].insert(2, ["Alcohol", "Rum", 1*mL_PER_SHOT])
 drinks[LI].insert(3, ["Mixer", "Lime Juice", 45])
 drinks[LI].insert(4, ["Mixer", "Cola", 135])
 
-# Custom Drink Logic
+# Default Custom Drink
 drinks.insert(CUSTOM,[])
+drinks[CUSTOM].insert(0, ["None", "None", 0])
+drinks[CUSTOM].insert(1, ["None", "None", 0])
+drinks[CUSTOM].insert(2, ["None", "None", 0])
+drinks[CUSTOM].insert(3, ["None", "None", 0])
+drinks[CUSTOM].insert(4, ["None", "None", 0])
+
+# Custom Drink Logic
+# Currently Allows for ["None", "None", 0] to be a valid entry in the recipe
 def CustomizeDrink(ingr0,ingr1,ingr2,ingr3,ingr4):
 	drinks[CUSTOM] = [];
 	custom_ingr_no = 0
-	if (ingr0[2] != "None"):		
-		drinks[CUSTOM].insert(custom_ingr_no, ingr0)
-		custom_ingr_no += 1
-	if (ingr1[2] != "None"):
-		drinks[CUSTOM].insert(custom_ingr_no, ingr1)
-		custom_ingr_no += 1
-	if (ingr2[2] != "None"):
-		drinks[CUSTOM].insert(custom_ingr_no, ingr2)
-		custom_ingr_no += 1
-	if (ingr3[2] != "None"):
-		drinks[CUSTOM].insert(custom_ingr_no, ingr3)
-		custom_ingr_no += 1
-	if (ingr4[2] != "None"):
-		drinks[CUSTOM].insert(custom_ingr_no, ingr4)
-		custom_ingr_no += 1
+	#if (ingr0[1] != "None"):		
+	drinks[CUSTOM].insert(custom_ingr_no, ingr0)
+	custom_ingr_no += 1
+	#if (ingr1[1] != "None"):
+	drinks[CUSTOM].insert(custom_ingr_no, ingr1)
+	custom_ingr_no += 1
+	#if (ingr2[1] != "None"):
+	drinks[CUSTOM].insert(custom_ingr_no, ingr2)
+	custom_ingr_no += 1
+	#if (ingr3[1] != "None"):
+	drinks[CUSTOM].insert(custom_ingr_no, ingr3)
+	custom_ingr_no += 1
+	#if (ingr4[1] != "None"):
+	drinks[CUSTOM].insert(custom_ingr_no, ingr4)	
 	return;

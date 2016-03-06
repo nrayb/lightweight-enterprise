@@ -22,41 +22,55 @@ def exitPrgm():
 # GUI Main Config
 window = Tk()
 window.title("BarTini GUI")
-window.geometry('800x480') # Screen Resolution
+window.geometry('800x480+0+0') # Screen Resolution
 window.configure(background='white')
+#window.attributes("-fullscreen", True)
 
 # Local Custom Ingredient Strings
-i0 = ["","None",0]
-i1 = ["","None",0]
-i2 = ["","None",0]
-i3 = ["","None",0]
-i4 = ["","None",0]
+i0 = ["None","None",0]
+i1 = ["None","None",0]
+i2 = ["None","None",0]
+i3 = ["None","None",0]
+i4 = ["None","None",0]
 
 # Wrapper Function to modify the custom drink recipe
 # Called by pressing save button in cmodal
-maxquantity = 500
+MAXQUANTITY = 500
 def save_custom(l0,q0,l1,q1,l2,q2,l3,q3,l4,q4):
-	if((q0+q1+q2+q3+q4)>maxquantity):
+	
+	# Handle case of empty string for quantity
+	if(q0 == ""):
+		q0 = "0"
+	if(q1 == ""):
+		q1 = "0"
+	if(q2 == ""):
+		q2 = "0"
+	if(q3 == ""):
+		q3 = "0"
+	if(q4 == ""):
+		q4 = "0"
+	
+	if((int(q0)+int(q1)+int(q2)+int(q3)+int(q4))>MAXQUANTITY):
 		# Quantity totals too much. Drink not saved. Display message to user
 		quantityerror = Toplevel()
 		quantityerror.title("Quantity Error")
 		quantityerror.geometry('300x180')
-		qe_txt = "Total drink quantity is too high.\nCannot exceed " + str(maxquantity) + "mL in total liquids.\nPlease re-edit your recipe."
+		qe_txt = "Total drink quantity is too high.\nCannot exceed " + str(MAXQUANTITY) + "mL in total liquids.\nPlease re-edit your recipe."
 		msg = Label(quantityerror, text=qe_txt, font=("Arial",12)).pack()
 		OK_button = Button(quantityerror, text="OK", command=quantityerror.destroy).pack()
 		return
 	
 	# Save local variables
-	if (l0 != "None"):
-		save_i0(l0,q0)
-	if (l1 != "None"):
-		save_i1(l1,q1)
-	if (l2 != "None"):
-		save_i2(l2,q2)
-	if (l3 != "None"):
-		save_i3(l3,q3)
-	if (l4 != "None"):
-		save_i4(l4,q4)
+	#if (l0 != "None"):
+	save_i0(l0,q0)
+	#if (l1 != "None"):
+	save_i1(l1,q1)
+	#if (l2 != "None"):
+	save_i2(l2,q2)
+	#if (l3 != "None"):
+	save_i3(l3,q3)
+	#if (l4 != "None"):
+	save_i4(l4,q4)
 		
 	# Save local variables to Recipe
 	Drinklist.CustomizeDrink(i0,i1,i2,i3,i4)
@@ -72,7 +86,10 @@ def save_i0(liquid,quantity):
 		if liquid == alc:
 			i0[0] = "Alcohol"
 			return
-	i0[0] = "Mixer"
+	if (liquid != "None"):
+		i0[0] = "Mixer"
+	else:
+		i0[0] = "None"
 	return
 	
 def save_i1(liquid,quantity):
@@ -82,7 +99,23 @@ def save_i1(liquid,quantity):
 		if liquid == alc:
 			i1[0] = "Alcohol"
 			return
-	i1[0] = "Mixer"
+	if (liquid != "None"):
+		i1[0] = "Mixer"
+	else:
+		i1[0] = "None"
+	return
+
+def save_i2(liquid,quantity):
+	i2[1] = liquid
+	i2[2] = int(quantity)
+	for alc in Drinklist.ALCOHOLS:
+		if liquid == alc:
+			i2[0] = "Alcohol"
+			return
+	if (liquid != "None"):
+		i2[0] = "Mixer"
+	else:
+		i2[0] = "None"
 	return
 	
 def save_i3(liquid,quantity):
@@ -92,17 +125,10 @@ def save_i3(liquid,quantity):
 		if liquid == alc:
 			i3[0] = "Alcohol"
 			return
-	i3[0] = "Mixer"
-	return
-
-def save_i2(liquid,quantity):
-	i4[1] = liquid
-	i4[2] = int(quantity)
-	for alc in Drinklist.ALCOHOLS:
-		if liquid == alc:
-			i4[0] = "Alcohol"
-			return
-	i4[0] = "Mixer"
+	if (liquid != "None"):
+		i3[0] = "Mixer"
+	else:
+		i3[0] = "None"
 	return
 
 def save_i4(liquid,quantity):
@@ -112,7 +138,10 @@ def save_i4(liquid,quantity):
 		if liquid == alc:
 			i4[0] = "Alcohol"
 			return
-	i4[0] = "Mixer"
+	if (liquid != "None"):
+		i4[0] = "Mixer"
+	else:
+		i4[0] = "None"
 	return
 	
 
@@ -122,25 +151,26 @@ def save_i4(liquid,quantity):
 def modalGen(drinkNo):
 	modal = Toplevel()
 	modal.title("Drink Details")
-	modal.geometry('400x240')	
+	modal.geometry('400x240+250+120')
+	#modal.attributes("-fullscreen", True)	
 	infostring_var = StringVar(modal)
 	infostring = "\nDrink Contains the Following Ingredients:\n"
 	for ingredient in Drinklist.drinks[drinkNo]:
 		if(ingredient[0] == "Alcohol"):			
-			infostring = infostring + "\n" + str(ingredient[2]*45) + "mL of " + ingredient[1]
-		else:
+			infostring = infostring + "\n" + str(ingredient[2]) + "mL of " + ingredient[1]
+		elif (ingredient[0] == "Mixer"):
 			infostring = infostring + "\n" + str(ingredient[2]) + "mL of " + ingredient[1]
 	infostring_var.set(infostring + "\n")	
 	msg = Label(modal, textvariable=infostring_var, font=("Arial",12)).pack()
-	make_button = Button(modal, text="Make Drink", command=lambda: PrintPrgm("make_button pressed")).pack() # This button should invoke the control signal process
+	make_button = Button(modal, text="Make Drink", bg="green", fg="white", command=lambda: PrintPrgm("make_button pressed")).pack() # This button should invoke the control signal process
 	cancel_button = Button(modal, text="Cancel", command=modal.destroy).pack()
 	return
 	
 # Ingredient Quantity Input Validation
 # Function limits input to 3 numeric characters
-maxchars = 3
+MAXCHARS = 3
 def quantitylimit(P):
-	if (len(P) > maxchars):
+	if (len(P) > MAXCHARS):
 		return False
 	elif P=="":
 		return True
@@ -159,31 +189,32 @@ def CustomModal():
 	# Basic Config
 	cmodal = Toplevel()
 	cmodal.title("Custom Drink")
-	cmodal.geometry('500x340')	
+	cmodal.geometry('500x340+200+70')	
+	#cmodal.attributes("-fullscreen", True)
 	
 	# Dropdown Liquid (lx) Variables.
 	l0 = StringVar(cmodal)
-	l0.set(Drinklist.MASTER_OPTIONS[0])
+	l0.set(Drinklist.drinks[Drinklist.CUSTOM][0][1])
 	l1 = StringVar(cmodal)
-	l1.set(Drinklist.MASTER_OPTIONS[0])
+	l1.set(Drinklist.drinks[Drinklist.CUSTOM][1][1])
 	l2 = StringVar(cmodal)
-	l2.set(Drinklist.MASTER_OPTIONS[0])
+	l2.set(Drinklist.drinks[Drinklist.CUSTOM][2][1])
 	l3 = StringVar(cmodal)
-	l3.set(Drinklist.MASTER_OPTIONS[0])
+	l3.set(Drinklist.drinks[Drinklist.CUSTOM][3][1])
 	l4 = StringVar(cmodal)
-	l4.set(Drinklist.MASTER_OPTIONS[0])
+	l4.set(Drinklist.drinks[Drinklist.CUSTOM][4][1])
 	
 	# Quantities Text Boxes
 	q0 = StringVar(cmodal)
-	q0.set("0")
+	q0.set(str(Drinklist.drinks[Drinklist.CUSTOM][0][2]))
 	q1 = StringVar(cmodal)
-	q1.set("0")
+	q1.set(str(Drinklist.drinks[Drinklist.CUSTOM][1][2]))
 	q2 = StringVar(cmodal)
-	q2.set("0")
+	q2.set(str(Drinklist.drinks[Drinklist.CUSTOM][2][2]))
 	q3 = StringVar(cmodal)
-	q3.set("0")
+	q3.set(str(Drinklist.drinks[Drinklist.CUSTOM][3][2]))
 	q4 = StringVar(cmodal)
-	q4.set("0")	
+	q4.set(str(Drinklist.drinks[Drinklist.CUSTOM][4][2]))	
 	
 	# Labels for Dropdown Boxes and Fillable Text Form
 	msg0 = Label(cmodal, text="Ingredient").grid(row=0,column=0,padx=15,pady=10)
@@ -210,11 +241,14 @@ def CustomModal():
 	
 	# Fifth Ingredient
 	o40 = OptionMenu(cmodal, l4, *Drinklist.MASTER_OPTIONS).grid(row=5,column=0,padx=15)
-	o41 = Entry(cmodal, textvariable=q4, width="3", validate='key', validatecommand=vcmd).grid(row=5,column=1,padx=15)	
+	o41 = Entry(cmodal, textvariable=q4, width="3", validate='key', validatecommand=vcmd).grid(row=5,column=1,padx=15)
 	
-	save_drink = Button(cmodal, text="Save Recipie", width="20", bg="blue", fg="white", command=lambda: save_custom(l0.get(), q0.get(), l1.get(), q1.get(), l2.get(), q2.get(), l3.get(), q3.get(), l4.get(), q4.get())).grid(row=6, column=1)
-	make_button = Button(cmodal, text="Make Drink", command=lambda: printRecipe(Drinklist.CUSTOM)).grid(row=7,column=1) # This button should invoke the control signal process
-	cancel_button = Button(cmodal, text="Cancel", command=cmodal.destroy).grid(row=7,column=2)
+	CUSTOM_image_label = Label(cmodal, image=CUSTOM_image).grid(row=1, column=2, padx=15, rowspan=5)
+	
+	save_drink = Button(cmodal, text="Save Recipie", width="20", bg="blue", fg="white", command=lambda: save_custom(l0.get(), q0.get(), l1.get(), q1.get(), l2.get(), q2.get(), l3.get(), q3.get(), l4.get(), q4.get())).grid(row=6, column=1, pady=5)
+	CONT_B_COLOR = "#a51aae" # Hex code corresponding to the purple color of the continue button
+	continue_button = Button(cmodal, text="Continue >>", bg=CONT_B_COLOR, fg="white", command=lambda: modalGen(Drinklist.CUSTOM)).grid(row=7, column=1)
+	cancel_button = Button(cmodal, text="Cancel", command=cmodal.destroy).grid(row=7,column=2, padx=15, pady=5)
 	return
 
 # Logo and Company Banner
