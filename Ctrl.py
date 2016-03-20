@@ -6,40 +6,34 @@
 import RPi.GPIO as GPIO # Raspberry Pi GPIO interface library
 from time import sleep # Sleep Command available
 
-# Define GPIO pin associations
-AlcoholServo1 = 21
-AlcoholServo2 = 20
-Mix1 = 2
-Mix2 = 3
-Mix3 = 4
-Mix4 = 17
-Mix5 = 27
-Mix6 = 22
-Mix7 = 10
-Mix8 = 9
-Carousel = 12 # <-- Is there feedback? How do we control this motor?
-MixMotor = 6
-SolValve = 5
-LineScan = 25
-Water = 7
+# Define GPIO pin associations (Switch-based Ctrl)
+Pump = 5
+AlcoholServo = 37
+Mix1 = 40
+Mix2 = 38
+Mix3 = 36
+Mix4 = 32
+Mix5 = 26
+Mix6 = 24
+MixMotor = 8
+MixSolValve = 32
 
-# Define Stepper Count Bottle Associations
-BottleCount1 = 0
-BottleCount2 = 90
-BottleCount3 = 180
-BottleCount4 = 270
+# Define Remaining GPIO pin associations
+Camera = 25 # <-- How to control??
+Water = 7 # <-- Different from mixer sys or is water in one of the bottles?
+StepperMotor = 12 # <-- How do we control this motor?
 
-# Define Time Constants
+# Define Time Constants <-- this might not be required if we use camera
 time_for_one_shot = 5
 sol_valve_on_time = 8
 water_on_time = 5
 
 # Configure and Initialize GPIO Pins
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(AlcoholServo1, GPIO.OUT)
-GPIO.output(AlcoholServo1, GPIO.LOW)
-GPIO.setup(AlcoholServo2, GPIO.OUT)
-GPIO.output(AlcoholServo2, GPIO.LOW)
+GPIO.setup(Pump, GPIO.OUT)
+GPIO.output(Pump, GPIO.LOW)
+GPIO.setup(AlcoholServo, GPIO.OUT)
+GPIO.output(AlcoholServo, GPIO.LOW)
 GPIO.setup(Mix1, GPIO.OUT)
 GPIO.output(Mix1, GPIO.LOW)
 GPIO.setup(Mix2, GPIO.OUT)
@@ -52,17 +46,16 @@ GPIO.setup(Mix5, GPIO.OUT)
 GPIO.output(Mix5, GPIO.LOW)
 GPIO.setup(Mix6, GPIO.OUT)
 GPIO.output(Mix6, GPIO.LOW)
-GPIO.setup(Mix7, GPIO.OUT)
-GPIO.output(Mix7, GPIO.LOW)
-GPIO.setup(Mix8, GPIO.OUT)
-GPIO.output(Mix8, GPIO.LOW)
-GPIO.setup(Carousel, GPIO.OUT)
-GPIO.output(Carousel, GPIO.LOW)
 GPIO.setup(MixMotor, GPIO.OUT)
 GPIO.output(MixMotor, GPIO.LOW)
-GPIO.setup(SolValve, GPIO.OUT)
-GPIO.output(SolValve, GPIO.LOW)
-GPIO.setup(LineScan, GPIO.IN) # Not sure if more setup is needed for input pin(s)
+GPIO.setup(MixSolValve, GPIO.OUT)
+GPIO.output(MixSolValve, GPIO.LOW)
+GPIO.setup(Water, GPIO.OUT)
+GPIO.output(Water, GPIO.LOW)
+
+GPIO.setup(Carousel, GPIO.OUT)
+GPIO.output(Carousel, GPIO.LOW)
+GPIO.setup(Camera, GPIO.IN) # Not sure if more setup is needed for input pin(s)
 
 # Root function for pouring a drink
 def MakeDrink(drinkID):
@@ -127,11 +120,3 @@ def RinseCycle():
 #	
 # TODO: Carousel Motor Function
 #
-		
-# Function to Quit GUI upon pressing the exit button
-def exitPrgm():
-	print("Exiting Program")
-	GPIO.cleanup()
-	window.quit()
-	return
-

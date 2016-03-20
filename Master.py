@@ -6,13 +6,8 @@
 import Drinklist # Python file containing recipies
 from Tkinter import *
 from PIL import ImageTk, Image
-
-# Program for printing variables on button presses. For Testing.
-def PrintPrgm(n):
-	print(n)
-	return
 	
-# Function to Quit GUI upon pressing the exit button Replace with the one in Ctrl.py when completed.
+# Function to Quit GUI upon pressing the exit button. Might need to add raspberry pi cleanup. Should be placed in Ctrl.py when done.
 def exitPrgm():
 	print("Exiting Program")
 	#GPIO.cleanup()
@@ -25,6 +20,9 @@ window.title("BarTini GUI")
 window.geometry('800x480+0+0') # Screen Resolution
 window.configure(background='white')
 #window.attributes("-fullscreen", True)
+
+# Load Drink Quantites from txt file on startup
+Drinklist.LoadQuantities()
 
 # Local Custom Ingredient Strings
 i0 = ["None","None",0]
@@ -144,7 +142,44 @@ def save_i4(liquid,quantity):
 		i4[0] = "None"
 	return
 	
-
+def QuantityVerifyStep(drinkNo, modal):
+	
+	print("Verifing Quantities...\n")
+	
+	# Check for insufficient amounts
+	for ingredient in Drinklist.drinks[drinkNo]:
+		for drink in Drinklist.QuantityTracking:
+			# Find liquid in quantity variable
+			if drink[0] == ingredient[1]:
+				if drink[1] < ingredient[2]:
+					# Not sufficient amound remaining
+					print("Invalid Quantities Detected...")
+					errmsg = Toplevel()
+					errmsg.title("Quantity Error")
+					errmsg.geometry('400x200+300+150')
+					textmsg = StringVar(errmsg)
+					textmsg.set("Insufficient amount of " + ingredient[1])
+					content = Label(errmsg, textvariable=textmsg).pack()
+					ok_button = Button(errmsg, text="OK", command=errmsg.destroy).pack()
+					return
+	
+	print("Valid Quantities Detected...")				
+	# Subtract Amounts
+	for ingredient in Drinklist.drinks[drinkNo]:
+		for drink in Drinklist.QuantityTracking:
+			# Find liquid in quantity variable
+			if drink[0] == ingredient[1]:
+				# Subtract amount from variable
+				print("Subtracting " + str(ingredient[2]) + " from " + str(drink[1]) + " in " + ingredient[1])
+				drink[1] -= ingredient[2]
+	# Write updated variable to text file
+	Drinklist.SaveQuantities(Drinklist.QuantityTracking)
+	
+	# Begin Control Sequence
+	print("Initializing Control Sequence")
+	#Ctrl.MakeDrink(drinkNo)
+	modal.destroy()
+	return
 			
 # Standard Modal
 # Called by predefined drink button press
@@ -162,7 +197,7 @@ def modalGen(drinkNo):
 			infostring = infostring + "\n" + str(ingredient[2]) + "mL of " + ingredient[1]
 	infostring_var.set(infostring + "\n")	
 	msg = Label(modal, textvariable=infostring_var, font=("Arial",12)).pack()
-	make_button = Button(modal, text="Make Drink", bg="green", fg="white", command=lambda: PrintPrgm("make_button pressed")).pack() # This button should invoke the control signal process
+	make_button = Button(modal, text="Make Drink", bg="green", fg="white", command=lambda: QuantityVerifyStep(drinkNo, modal)).pack() # This button should invoke the control signal process
 	cancel_button = Button(modal, text="Cancel", command=modal.destroy).pack()
 	return
 	
@@ -247,8 +282,13 @@ def CustomModal():
 	
 	save_drink = Button(cmodal, text="Save Recipie", width="20", bg="blue", fg="white", command=lambda: save_custom(l0.get(), q0.get(), l1.get(), q1.get(), l2.get(), q2.get(), l3.get(), q3.get(), l4.get(), q4.get())).grid(row=6, column=1, pady=5)
 	CONT_B_COLOR = "#a51aae" # Hex code corresponding to the purple color of the continue button
-	continue_button = Button(cmodal, text="Continue >>", bg=CONT_B_COLOR, fg="white", command=lambda: modalGen(Drinklist.CUSTOM)).grid(row=7, column=1)
+	continue_button = Button(cmodal, text="Continue >>", bg=CONT_B_COLOR, fg="white", command=lambda: CustomContWrapper(cmodal)).grid(row=7, column=1)
 	cancel_button = Button(cmodal, text="Cancel", command=cmodal.destroy).grid(row=7,column=2, padx=15, pady=5)
+	return
+	
+def CustomContWrapper(cmodal):
+	cmodal.destroy()
+	modalGen(Drinklist.CUSTOM)
 	return
 
 # Logo and Company Banner

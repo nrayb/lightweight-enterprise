@@ -9,6 +9,9 @@ drinks = []
 ALCOHOLS = ["Vodka","Rum","Gin","Whiskey"]
 MASTER_OPTIONS = ["None","Vodka","Rum","Gin","Whiskey","Cola", "Lime Juice", "OJ", "Lemon Juice", "Soda Water", "Simple Syrup"]
 
+# Quantities located in "quantities.txt" and persist over instances of the program
+QuantityTracking = [ ["Vodka", 0], ["Rum", 0], ["Gin", 0], ["Whiskey", 0], ["Cola", 0], ["Lime Juice", 0], ["OJ", 0], ["Lemon Juice", 0], ["Soda Water", 0], ["Simple Syrup", 0] ]
+
 # DrinkNo Correspondances
 RC = 0 # Rum and Coke
 SD = RC+1 # Screwdriver
@@ -20,7 +23,7 @@ GM = TC+1 # Gimlet
 LI = GM+1 # Long Island Ice Tea
 CUSTOM = LI+1 # Custom Drink
 
-mL_PER_SHOT = 45
+mL_PER_SHOT = 45 # Constant Integer
 
 # Drink/Recipe List
 # Format for Alcohol: ("Alcohol", "<Type>", <# shots>*45)
@@ -32,7 +35,7 @@ drinks[RC].insert(1, ["Mixer", "Cola", 250])
 drinks[RC].insert(2, ["Mixer", "Lime Juice", 45])
 
 drinks.insert(SD,[])
-drinks[SD].insert(0, ["Alcohol", "Vodka", 1.5*mL_PER_SHOT])
+drinks[SD].insert(0, ["Alcohol", "Vodka", int(1.5*mL_PER_SHOT)])
 drinks[SD].insert(1, ["Mixer", "OJ", 250])
 
 drinks.insert(WS,[])
@@ -96,3 +99,21 @@ def CustomizeDrink(ingr0,ingr1,ingr2,ingr3,ingr4):
 	#if (ingr4[1] != "None"):
 	drinks[CUSTOM].insert(custom_ingr_no, ingr4)	
 	return;
+	
+def LoadQuantities():
+	f = open('quantities.txt', 'r')
+	for index,line in enumerate(f):
+		QuantityTracking[index][1] = int(line)
+	print("Imported QuantityTracking.")
+	f.close()
+	return
+	
+def SaveQuantities(QuantityTracking):
+	f = open('quantities.txt', 'w')
+	print("\nWriting to quantity.txt")
+	for data_pair in QuantityTracking:
+		f.write(str(data_pair[1]) + "\n")
+		print("Writing " + str(data_pair[1]))
+	print("Done Editing.\n")
+	f.close()
+	return
