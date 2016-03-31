@@ -11,13 +11,12 @@ PumpPin = 5
 AlcoholServoPin = 37
 ColaPin = 40
 LimeJuicePin = 38
-LemonJuicePin = 36
 SodaWaterPin = 32
-SimpleSyrupPin = 26
 OJPin = 24
+WaterPin = 7
 MixMotorPin = 8
 MixSolValvePin = 32
-WaterPin = 7 # <-- Different from mixer sys or is water in one of the bottles?
+
 
 # Define Remaining GPIO pin associations
 Camera = 25 # <-- How to control??
@@ -60,6 +59,9 @@ GPIO.setup(Camera, GPIO.IN) # Not sure if more setup is needed for input pin(s)
 # Root function for pouring a drink
 def MakeDrink(drinkID):
 	# master function content here
+	
+	# Print Recipe. For Debug.
+	Master.printRecipe(drinkNo)
 	
 	# Decode drink and pour contents into mixing chamber
 	for ingredient in Drinklist.drinks[drinkID]:			
@@ -130,12 +132,10 @@ def DispenseMix(MixType, mL):
 		mixerpin = ColaPin
 	elif MixType == "Lime Juice":
 		mixerpin = LimeJuicePin
-	elif MixType == "Lemon Juice":
-		mixerpin = LemonJuicePin
+	elif MixType == "Orange Juice":
+		mixerpin = OJPin
 	elif MixType == "Soda Water":
 		mixerpin == SodaWaterPin
-	elif MixType == "Simple Syrup":
-		mixerpin == SimpleSyrupPin
 	else:
 		# Unable to Identify Correct Mixer Pin
 		print("ERROR: Unable to Identify Correct Mixer Pin. Argument MixType was:" + MixType)
@@ -151,7 +151,7 @@ def DispenseMix(MixType, mL):
 	# We need to test to see how long a mL takes to dispense. 0.02s for now.
 	# Can replace with system feedback when applicable
 	sleep(time_to_dispense_mL*mL)
-	GPIO.output(PumpPin, GPIO.LOW) # Turn off Pump
+	GPIO.output(PumpPin, GPIO.LOW) # Turn off Pump. Possibly put a delay before closing the valve if the pump doesn't stop immediately.
 	GPIO.output(mixerpin, GPIO.LOW) # Close valve
 	
 	return
@@ -193,9 +193,11 @@ def MixChamberValve(open):
 
 # Function dispenses water to flush the system
 def RinseCycle():
-	GPIO.output(WaterPin, GPIO.HIGH)
+	GPIO.output(WaterPin, GPIO.HIGH) # Open Water Valve
+	GPIO.output(PumpPin, GPIO.HIGH) # Turn on Pump
 	sleep(water_rinse_time)
-	GPIO.output(WaterPin, GPIO.LOW)
+	GPIO.output(PumpPin, GPIO.LOW) # Turn off Pump. Possibly put a delay before closing the valve if the pump doesn't stop immediately.
+	GPIO.output(WaterPin, GPIO.LOW) # Close Water Valve
 	return
 
 # Function to rotate carousel to required position

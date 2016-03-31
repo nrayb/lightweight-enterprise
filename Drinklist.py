@@ -7,21 +7,21 @@ drinks = []
 
 # Contents of Machine
 ALCOHOLS = ["Vodka","Rum","Gin","Whiskey"]
-MASTER_OPTIONS = ["None","Vodka","Rum","Gin","Whiskey","Cola", "Lime Juice", "OJ", "Lemon Juice", "Soda Water", "Simple Syrup"]
+MASTER_OPTIONS = ["None","Vodka","Rum","Gin","Whiskey","Cola", "Lime Juice", "Orange Juice", "Soda Water", "Water"]
 
 # Quantities located in "quantities.txt" and persist over instances of the program
-QuantityTracking = [ ["Vodka", 0], ["Rum", 0], ["Gin", 0], ["Whiskey", 0], ["Cola", 0], ["Lime Juice", 0], ["OJ", 0], ["Lemon Juice", 0], ["Soda Water", 0], ["Simple Syrup", 0] ]
+QuantityTracking = [ ["Vodka", 0], ["Rum", 0], ["Gin", 0], ["Whiskey", 0], ["Cola", 0], ["Lime Juice", 0], ["Orange Juice", 0], ["Soda Water", 0] ]
 
 # DrinkNo Correspondances
-RC = 0 # Rum and Coke
-SD = RC+1 # Screwdriver
-WS = SD+1 # Whiskey Sour
-GR = WS+1 # Gin Rickey
-DAQ = GR+1 # Daiquiri
-TC = DAQ+1 # Tom Collins
-GM = TC+1 # Gimlet
-LI = GM+1 # Long Island Ice Tea
-CUSTOM = LI+1 # Custom Drink
+CL = 0 # Cuba Libre
+WC = CL+1 # Whiskey Cola
+CBA = WC+1 # Cubata
+GR = CBA+1 # Gin Rickey
+WL = GR+1 # Whiskey Lime
+SD = WL+1 # Screwdriver
+JG = SD+1 # Jamaica Glow
+GM = JG+1 # Gimlet
+CUSTOM = GM+1 # Custom Drink
 
 mL_PER_SHOT = 45 # Constant Integer
 
@@ -29,47 +29,42 @@ mL_PER_SHOT = 45 # Constant Integer
 # Format for Alcohol: ("Alcohol", "<Type>", <# shots>*45)
 # Format for Mixer: ("Mixer", "<Type>", mL)
 
-drinks.insert(RC,[])
-drinks[RC].insert(0, ["Alcohol", "Rum", 1*mL_PER_SHOT])
-drinks[RC].insert(1, ["Mixer", "Cola", 250])
-drinks[RC].insert(2, ["Mixer", "Lime Juice", 45])
+drinks.insert(CL,[])
+drinks[CL].insert(0, ["Alcohol", "Rum", 1*mL_PER_SHOT])
+drinks[CL].insert(1, ["Mixer", "Cola", 150])
+drinks[CL].insert(2, ["Mixer", "Lime Juice", 45])
 
-drinks.insert(SD,[])
-drinks[SD].insert(0, ["Alcohol", "Vodka", int(1.5*mL_PER_SHOT)])
-drinks[SD].insert(1, ["Mixer", "OJ", 250])
+drinks.insert(WC,[])
+drinks[WC].insert(0, ["Alcohol", "Whiskey", 1*mL_PER_SHOT])
+drinks[WC].insert(1, ["Mixer", "Cola", 150])
 
-drinks.insert(WS,[])
-drinks[WS].insert(0, ["Alcohol", "Whiskey", 2*mL_PER_SHOT])
-drinks[WS].insert(1, ["Mixer", "Lemon Juice", 45])
-drinks[WS].insert(2, ["Mixer", "Simple Syrup", 20])
+drinks.insert(CBA,[])
+drinks[CBA].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
+drinks[CBA].insert(1, ["Mixer", "Lime Juice", 35])
+drinks[CBA].insert(2, ["Mixer", "Cola", 90])
 
 drinks.insert(GR,[])
 drinks[GR].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
 drinks[GR].insert(1, ["Mixer", "Soda Water", 200])
 drinks[GR].insert(2, ["Mixer", "Lime Juice", 30])
 
-drinks.insert(DAQ,[])
-drinks[DAQ].insert(0, ["Alcohol", "Rum", 2*mL_PER_SHOT])
-drinks[DAQ].insert(1, ["Mixer", "Simple Syrup", 45])
-drinks[DAQ].insert(2, ["Mixer", "Lime Juice", 45])
+drinks.insert(WL,[])
+drinks[WL].insert(0, ["Alcohol", "Whiskey", int(1.5*mL_PER_SHOT)])
+drinks[WL].insert(1, ["Mixer", "Lime Juice", 30])
 
-drinks.insert(TC,[])
-drinks[TC].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
-drinks[TC].insert(1, ["Mixer", "Simple Syrup", 30])
-drinks[TC].insert(2, ["Mixer", "Lemon Juice", 30])
-drinks[TC].insert(3, ["Mixer", "Soda Water", 200])
+drinks.insert(SD,[])
+drinks[SD].insert(0, ["Alcohol", "Vodka", 1*mL_PER_SHOT])
+drinks[SD].insert(1, ["Mixer", "Orange Juice", 135])
+
+drinks.insert(JG,[])
+drinks[JG].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
+drinks[JG].insert(1, ["Alcohol", "Rum", int(0.5*mL_PER_SHOT)])
+drinks[JG].insert(2, ["Mixer", "Orange Juice", 30])
 
 drinks.insert(GM,[])
-drinks[GM].insert(0, ["Alcohol", "Gin", 2*mL_PER_SHOT])
-drinks[GM].insert(1, ["Mixer", "Simple Syrup", 20])
-drinks[GM].insert(2, ["Mixer", "Lime Juice", 45])
+drinks[GM].insert(0, ["Alcohol", "Gin", 1*mL_PER_SHOT])
+drinks[GM].insert(1, ["Mixer", "Lime Juice", 20])
 
-drinks.insert(LI,[])
-drinks[LI].insert(0, ["Alcohol", "Gin", 1*mL_PER_SHOT])
-drinks[LI].insert(1, ["Alcohol", "Vodka", 1*mL_PER_SHOT])
-drinks[LI].insert(2, ["Alcohol", "Rum", 1*mL_PER_SHOT])
-drinks[LI].insert(3, ["Mixer", "Lime Juice", 45])
-drinks[LI].insert(4, ["Mixer", "Cola", 135])
 
 # Default Custom Drink
 drinks.insert(CUSTOM,[])
@@ -81,6 +76,7 @@ drinks[CUSTOM].insert(4, ["None", "None", 0])
 
 # Custom Drink Logic
 # Currently Allows for ["None", "None", 0] to be a valid entry in the recipe
+# Inputs are the ingredients in the same format as the predefined ingredients. This parsing done in Master.py.
 def CustomizeDrink(ingr0,ingr1,ingr2,ingr3,ingr4):
 	drinks[CUSTOM] = [];
 	custom_ingr_no = 0
@@ -99,7 +95,8 @@ def CustomizeDrink(ingr0,ingr1,ingr2,ingr3,ingr4):
 	#if (ingr4[1] != "None"):
 	drinks[CUSTOM].insert(custom_ingr_no, ingr4)	
 	return;
-	
+
+# Function loads the drink quantities from the text file. Invoked on application launch.	
 def LoadQuantities():
 	f = open('quantities.txt', 'r')
 	for index,line in enumerate(f):
@@ -107,7 +104,8 @@ def LoadQuantities():
 	print("Imported QuantityTracking.")
 	f.close()
 	return
-	
+
+# Function to update text file containing drink quantities. Called after a drink is dispensed.	
 def SaveQuantities(QuantityTracking):
 	f = open('quantities.txt', 'w')
 	print("\nWriting to quantity.txt")

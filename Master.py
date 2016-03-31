@@ -297,37 +297,37 @@ logo_label = Label(window, image=LE_logo)
 logo_label.grid(row=0,column=0)
 LE_text = Label(window, text="BarTini GUI", font=("Biondi", 30, "bold"), bg='white').grid(row=0,column=1,columnspan=5, sticky=SW)
 
-# Rum and Coke
-RC_image = ImageTk.PhotoImage(Image.open("RC.gif"))
-RC_button = Button(window, image=RC_image, width="110", height="170", compound=TOP, text="Rum and Coke", command=lambda: modalGen(Drinklist.RC)).grid(row=1, column=0, pady=10, padx=5)
+# Cuba Libre
+CL_image = ImageTk.PhotoImage(Image.open("CL.gif"))
+CL_button = Button(window, image=CL_image, width="110", height="170", compound=TOP, text="Cuba Libre", command=lambda: modalGen(Drinklist.CL)).grid(row=1, column=0, pady=10, padx=5)
 
-# Screwdriver
-SD_image = ImageTk.PhotoImage(Image.open("SD.gif"))
-SD_button = Button(window, image=SD_image, width="110", height="170", compound=TOP, text="Screwdriver", command=lambda: modalGen(Drinklist.SD)).grid(row=1, column=1, pady=10, padx=5)
+# Whiskey Cola
+WC_image = ImageTk.PhotoImage(Image.open("WC.gif"))
+WC_button = Button(window, image=WC_image, width="110", height="170", compound=TOP, text="Whiskey Cola", command=lambda: modalGen(Drinklist.WC)).grid(row=1, column=1, pady=10, padx=5)
 
-# Whiskey Sour
-WS_image = ImageTk.PhotoImage(Image.open("WS.gif"))
-WS_button = Button(window, image=WS_image, width="110", height="170", compound=TOP, text="Whiskey Sour", command=lambda: modalGen(Drinklist.WS)).grid(row=1, column=2, pady=10, padx=5)
+# Cubata
+CBA_image = ImageTk.PhotoImage(Image.open("CBA.gif"))
+CBA_button = Button(window, image=CBA_image, width="110", height="170", compound=TOP, text="Cubata", command=lambda: modalGen(Drinklist.CBA)).grid(row=1, column=2, pady=10, padx=5)
 
 # Gin Rickey
 GR_image = ImageTk.PhotoImage(Image.open("GR.gif"))
 GR_button = Button(window, image=GR_image, width="110", height="170", compound=TOP, text="Gin Rickey", command=lambda: modalGen(Drinklist.GR)).grid(row=1, column=3, pady=10, padx=5)
 
-# Daquiri
-DAQ_image = ImageTk.PhotoImage(Image.open("DAQ.gif"))
-DAQ_button = Button(window, image=DAQ_image, width="110", height="170", compound=TOP, text="Daquiri", command=lambda: modalGen(Drinklist.DAQ)).grid(row=2, column=0, pady=10, padx=5)
+# Whiskey Lime
+WL_image = ImageTk.PhotoImage(Image.open("WL.gif"))
+WL_button = Button(window, image=WL_image, width="110", height="170", compound=TOP, text="Whiskey Lime", command=lambda: modalGen(Drinklist.WL)).grid(row=2, column=0, pady=10, padx=5)
 
-# Tom Collins
-TC_image = ImageTk.PhotoImage(Image.open("TC.gif"))
-TC_button = Button(window, image=TC_image, width="110", height="170", compound=TOP, text="Tom Collins", command=lambda: modalGen(Drinklist.TC)).grid(row=2, column=1, pady=10, padx=5)
+# Screwdriver
+SD_image = ImageTk.PhotoImage(Image.open("SD.gif"))
+SD_button = Button(window, image=SD_image, width="110", height="170", compound=TOP, text="Screwdriver", command=lambda: modalGen(Drinklist.SD)).grid(row=2, column=1, pady=10, padx=5)
 
 # Gimlet
-GM_image = ImageTk.PhotoImage(Image.open("RC.gif"))
+GM_image = ImageTk.PhotoImage(Image.open("GM.gif"))
 GM_button = Button(window, image=GM_image, width="110", height="170", compound=TOP, text="Gimlet", command=lambda: modalGen(Drinklist.GM)).grid(row=2, column=2, pady=10, padx=5)
 
-# Long Island Iced Tea
-LI_image = ImageTk.PhotoImage(Image.open("LI.gif"))
-LI_button = Button(window, image=LI_image, width="110", height="170", compound=TOP, text="Long Island Iced Tea", command=lambda: modalGen(Drinklist.LI)).grid(row=2, column=3, pady=10, padx=5)
+# Jamaica Glow
+JG_image = ImageTk.PhotoImage(Image.open("JG.gif"))
+JG_button = Button(window, image=JG_image, width="110", height="170", compound=TOP, text="Jamaica Glow", command=lambda: modalGen(Drinklist.JG)).grid(row=2, column=3, pady=10, padx=5)
 
 # Custom
 CUSTOM_image = ImageTk.PhotoImage(Image.open("CUSTOM.gif"))
